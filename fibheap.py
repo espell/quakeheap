@@ -38,6 +38,7 @@ class Fib_Heap:
         wrapper.prev_sibling = wrapper
         wrapper.item = item
         queue.minimum = self.append_lists(queue, queue.minimum, wrapper)
+        return wrapper
 
     def pq_find_min(self,queue):
         if(self.pq_empty(queue)):
@@ -103,6 +104,13 @@ class Fib_Heap:
 
     def pq_empty(self,queue):
         return (queue.size == 0)
+    
+    def pq_meld(self, queue, trash):
+        if trash.minimum == None:
+            return self
+        self.size += trash.size
+        self.append_lists(queue, queue.minimum, trash.minimum)
+        return self
 
     #### originally static methods in C implementation ####
 

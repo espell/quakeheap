@@ -62,30 +62,25 @@ class quake_heap:
     def pq_decrease_key(self, node, new_key):
         node.key = new_key
         if self.is_root(node):
-            if node.key < this.minimum.key:
+            if node.key < self.minimum.key:
                 self.minimum = node
         else:
             if node.parent.left == node:
                 node.parent.left = None
             else:
                 node.parent.right = None
-        self.make_root(node)
+            self.make_root(node)
         
-    def pq_meld(self, a, b):
-        if a.size >= b.size:
-            result = a
-            trash = b
-        else:
-            result = b
-            trash = a
+    def pq_meld(self, trash):
         if trash.minimum == None:
-            return result
-        temp = result.minimum.parent
-        result.minimum.parent = trash.minimum.parent
+            return self
+        temp = self.minimum.parent
+        self.minimum.parent = trash.minimum.parent
         trash.minimum.parent = temp
-        for k in range(result.highest_node):
-            result.nodes[k] += trash.nodes[k]
-        return result
+        self.size += trash.size
+        for k in range(trash.highest_node):
+            self.nodes[k] += trash.nodes[k]
+        return self
     
     def pq_empty(self):
         return self.size == 0
